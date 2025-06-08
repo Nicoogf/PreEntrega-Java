@@ -159,17 +159,83 @@ public class Main {
         System.out.println("Producto actualizado con éxito.");
     }
 
-
     private static void eliminarProducto() {
-        System.out.println("Eliminar Producto");
+       int id ;
+
+       while ( true ) {
+           System.out.println("Ingresar el ID del producto a eliminar : ");
+           String input = scanner.nextLine() ;
+           if(input.isBlank()) {
+               System.out.println("El ID no puede estar vacío. Intente nuevamente.");
+               continue;
+           }
+           try {
+               id = Integer.parseInt(input);
+               break;
+           }catch (NumberFormatException e) {
+               System.out.println("Debe ingresar un número válido.");
+           }
+       }
+        Producto producto = buscarProductoPorId(id);
+
+        if (producto == null) {
+            System.out.println("Producto no encontrado.");
+            return;
+        }
+
+        productos.remove(producto);
+        System.out.println("Producto eliminado con éxito.");
     }
 
     private static void crearPedido() {
-        System.out.println("Crear Producto");
+       Pedido nuevoPedido = new Pedido() ;
+
+       while (true) {
+           int id = leerEntero("Ingrese el ID del producto ( -1 para terminar ) : ") ;
+           if ( id == -1 ) break ;
+
+           Producto producto = buscarProductoPorId(id) ;
+           if( producto == null ) {
+               System.out.println("Producto no encontrado.\n");
+               continue;
+           }
+
+           int cantidad = leerEntero("Ingrese cantidad : ") ;
+           if( cantidad <= 0) {
+               System.out.println("La cantidad debe ser mayor a 0 .\n");
+               continue;
+           }
+
+           try{
+               nuevoPedido.agregarProducto(producto,cantidad) ;
+               System.out.println("Producto agregado al pedido.\n");
+           }catch (IllegalArgumentException e ) {
+               System.out.println("Error : " + e.getMessage() + "\n.");
+           }
+       }
+
+       if( nuevoPedido.estaVacio() ) {
+           System.out.println("No se creo el pedido, no se agregaron productos");
+       }else{
+           nuevoPedido.confirmarPedido();
+           pedidos.add(nuevoPedido) ;
+           System.out.println("\n Pedido confirmado con exito : ");
+           nuevoPedido.mostrarDetalles();
+       }
     }
 
     private static void listarPedidos() {
-        System.out.println("Listar Producto");
+        if (pedidos.isEmpty()) {
+            System.out.println("No hay pedidos registrados.");
+            return;
+        }
+
+        int contador = 1;
+        for (Pedido p : pedidos) {
+            System.out.println("Pedido #" + contador++);
+            p.mostrarDetalles();
+            System.out.println("---------------------------");
+        }
     }
 
 
