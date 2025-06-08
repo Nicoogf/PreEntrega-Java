@@ -164,8 +164,6 @@ public class Main {
 
 
 
-
-
     private static void eliminarProducto() {
        int id ;
 
@@ -190,8 +188,9 @@ public class Main {
             return;
         }
 
+        String nombreEliminado = producto.getNombre() ;
         productos.remove(producto);
-        System.out.println("Producto eliminado con éxito.");
+        System.out.println("✅ " + nombreEliminado + " eliminado con éxito.");
     }
 
     private static void crearPedido() {
