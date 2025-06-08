@@ -41,22 +41,26 @@ public class Main {
     }
 
     private static void agregarProducto() {
-        scanner.nextLine() ; //Buffer limpio
-        System.out.println("Nombre del producto : ");
-        String nombre = scanner.nextLine() ;
+        System.out.print("Nombre del producto: ");
+        String nombre = scanner.nextLine();
 
-        System.out.println("Precio : ");
-        double precio = scanner.nextDouble() ;
+        System.out.print("Precio: $ ");
+        String precioInput = scanner.nextLine();
 
-        System.out.println("Stock : ");
-        int stock = scanner.nextInt() ;
+        System.out.print("Stock: ");
+        String stockInput = scanner.nextLine();
 
-        try{
-            Producto nuevo = new Producto(nombre,precio,stock) ;
-            productos.add(nuevo) ;
-            System.out.println("Producto agregado exitosamente");
-        }catch ( IllegalArgumentException e ){
-            System.out.println("Error al agregar producto : " + e.getMessage());
+        try {
+            double precio = Double.parseDouble(precioInput);
+            int stock = Integer.parseInt(stockInput);
+
+            Producto nuevo = new Producto(nombre, precio, stock);
+            productos.add(nuevo);
+            System.out.println("✅ Producto agregado con éxito.");
+        } catch (NumberFormatException e) {
+            System.out.println("❌ Error: El precio o el stock ingresado no es válido.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("❌ Error al agregar producto: " + e.getMessage());
         }
     }
 
@@ -88,38 +92,37 @@ public class Main {
     private static void actualizarProducto() {
         int id;
 
-        // Leer ID con validación
         while (true) {
             System.out.print("Ingrese el ID del producto a actualizar: ");
             String input = scanner.nextLine();
             if (input.isBlank()) {
-                System.out.println("El ID no puede estar vacío. Intente nuevamente.");
+                System.out.println("❌ El ID no puede estar vacío. Intente nuevamente.");
                 continue;
             }
             try {
                 id = Integer.parseInt(input);
                 break;
             } catch (NumberFormatException e) {
-                System.out.println("Debe ingresar un número válido. Intente nuevamente.");
+                System.out.println("❌ Debe ingresar un número válido. Intente nuevamente.");
             }
         }
 
         Producto producto = buscarProductoPorId(id);
         if (producto == null) {
-            System.out.println("Producto no encontrado.");
+            System.out.println("❌ Producto no encontrado.");
             return;
         }
 
-        System.out.println("Producto encontrado: " + producto);
+        System.out.println("✅ Producto encontrado: \n" + producto );
 
-        // Actualizar nombre
+
         System.out.print("Nuevo nombre: ");
         String nuevoNombre = scanner.nextLine();
         if (!nuevoNombre.isBlank()) {
             producto.setNombre(nuevoNombre);
         }
 
-        // Actualizar precio con validación
+
         while (true) {
             System.out.print("Nuevo precio: ");
             String input = scanner.nextLine();
@@ -134,11 +137,11 @@ public class Main {
                 }
                 break;
             } catch (NumberFormatException e) {
-                System.out.println("Precio inválido. Intente nuevamente.");
+                System.out.println("❌ Precio inválido. Intente nuevamente.");
             }
         }
 
-        // Actualizar stock con validación
+
         while (true) {
             System.out.print("Nuevo stock : ");
             String input = scanner.nextLine();
@@ -153,11 +156,15 @@ public class Main {
                 }
                 break;
             } catch (NumberFormatException e) {
-                System.out.println("Stock inválido. Intente nuevamente.");
+                System.out.println("❌ Stock inválido. Intente nuevamente.");
             }
         }
-        System.out.println("Producto actualizado con éxito.");
+        System.out.println("✅ Producto actualizado con éxito.");
     }
+
+
+
+
 
     private static void eliminarProducto() {
        int id ;
