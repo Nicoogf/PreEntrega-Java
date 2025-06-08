@@ -76,9 +76,89 @@ public class Main {
         }
     }
 
-    private static void actualizarProducto() {
-        System.out.println("Actualizar Producto");
+    private static Producto buscarProductoPorId(int id) {
+        for (Producto p : productos) {
+            if (p.getId() == id) {
+                return p;
+            }
+        }
+        return null;
     }
+
+    private static void actualizarProducto() {
+        int id;
+
+        // Leer ID con validación
+        while (true) {
+            System.out.print("Ingrese el ID del producto a actualizar: ");
+            String input = scanner.nextLine();
+            if (input.isBlank()) {
+                System.out.println("El ID no puede estar vacío. Intente nuevamente.");
+                continue;
+            }
+            try {
+                id = Integer.parseInt(input);
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Debe ingresar un número válido. Intente nuevamente.");
+            }
+        }
+
+        Producto producto = buscarProductoPorId(id);
+        if (producto == null) {
+            System.out.println("Producto no encontrado.");
+            return;
+        }
+
+        System.out.println("Producto encontrado: " + producto);
+
+        // Actualizar nombre
+        System.out.print("Nuevo nombre: ");
+        String nuevoNombre = scanner.nextLine();
+        if (!nuevoNombre.isBlank()) {
+            producto.setNombre(nuevoNombre);
+        }
+
+        // Actualizar precio con validación
+        while (true) {
+            System.out.print("Nuevo precio: ");
+            String input = scanner.nextLine();
+            if (input.isBlank()) {
+                System.out.println("Debe ingresar un número");
+                continue;
+            }
+            try {
+                double nuevoPrecio = Double.parseDouble(input);
+                if (nuevoPrecio >= 0) {
+                    producto.setPrecio(nuevoPrecio);
+                }
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Precio inválido. Intente nuevamente.");
+            }
+        }
+
+        // Actualizar stock con validación
+        while (true) {
+            System.out.print("Nuevo stock : ");
+            String input = scanner.nextLine();
+            if (input.isBlank()) {
+                System.out.println("Debe ingresar un número.");
+                continue;
+            }
+            try {
+                int nuevoStock = Integer.parseInt(input);
+                if (nuevoStock >= 0) {
+                    producto.setStock(nuevoStock);
+                }
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Stock inválido. Intente nuevamente.");
+            }
+        }
+        System.out.println("Producto actualizado con éxito.");
+    }
+
 
     private static void eliminarProducto() {
         System.out.println("Eliminar Producto");
