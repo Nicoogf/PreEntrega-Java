@@ -22,8 +22,21 @@ public class Main {
     }
 
     private static int leerEntero(String mensaje) {
-        System.out.println("Leer entero");
-        return 15;
+        while (true) {
+            System.out.print(mensaje);
+            System.out.flush();
+            String input = scanner.nextLine().trim();
+
+            if (input.isBlank()) {
+                continue;
+            }
+
+            try {
+                return Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                System.out.println("❌ Ingrese un número válido.\n");
+            }
+        }
     }
 
     private static void agregarProducto() {
