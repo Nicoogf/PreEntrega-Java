@@ -1,7 +1,5 @@
 import models.Pedido;
 import models.Producto;
-
-import java.security.PrivilegedActionException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -162,8 +160,6 @@ public class Main {
         System.out.println("✅ Producto actualizado con éxito.");
     }
 
-
-
     private static void eliminarProducto() {
        int id ;
 
@@ -238,7 +234,7 @@ public class Main {
 
         int contador = 1;
         for (Pedido p : pedidos) {
-            System.out.println("Pedido #" + contador++);
+            System.out.println("📦 Pedido #" + contador++ );
             p.mostrarDetalles();
             System.out.println("---------------------------");
         }
