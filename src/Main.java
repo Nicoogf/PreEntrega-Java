@@ -1,6 +1,7 @@
 import models.Pedido;
 import models.Producto;
 
+import java.security.PrivilegedActionException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -40,11 +41,39 @@ public class Main {
     }
 
     private static void agregarProducto() {
-        System.out.println("Agregar Producto");
+        scanner.nextLine() ; //Buffer limpio
+        System.out.println("Nombre del producto : ");
+        String nombre = scanner.nextLine() ;
+
+        System.out.println("Precio : ");
+        double precio = scanner.nextDouble() ;
+
+        System.out.println("Stock : ");
+        int stock = scanner.nextInt() ;
+
+        try{
+            Producto nuevo = new Producto(nombre,precio,stock) ;
+            productos.add(nuevo) ;
+            System.out.println("Producto agregado exitosamente");
+        }catch ( IllegalArgumentException e ){
+            System.out.println("Error al agregar producto : " + e.getMessage());
+        }
     }
 
     private static void listarProductos() {
-        System.out.println("Listar Productos");
+        System.out.println("\n=== LISTA DE PRODUCTOS ===");
+
+        if( productos.isEmpty()){
+            System.out.println("No hay productos cargados");
+            return ;
+        }
+        System.out.printf("%-5s %-20s %-10s %-10s\n", "ID", "Nombre", "Precio", "Stock");
+        System.out.println("-----------------------------------------------------");
+
+        for (Producto p : productos) {
+            System.out.printf("%-5d %-20s $%-9.2f %-10d\n",
+                    p.getId(), p.getNombre(), p.getPrecio(), p.getStock());
+        }
     }
 
     private static void actualizarProducto() {
